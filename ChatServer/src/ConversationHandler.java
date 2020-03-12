@@ -1,19 +1,21 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class ConversationHandler extends Thread
 {
     private Socket socket;
     private BufferedReader in;
-    private PrintWriter out;
+    private PrintWriter out,printToFile;
+    private FileWriter fileWriter;
+    private BufferedWriter  bufferedWriter;
     String name;
 
     public ConversationHandler(Socket socket) throws IOException
     {
         this.socket = socket;
+        fileWriter = new FileWriter("TYT_log.txt",true);
+        bufferedWriter = new BufferedWriter(fileWriter);
+        printToFile = new PrintWriter(bufferedWriter,true);
     }
 
     public void run()
@@ -48,7 +50,7 @@ public class ConversationHandler extends Thread
                 }
                 count++;
             }
-            out.println("NameAccepted");
+            out.println("NameAccepted" + name);
             ChatServer.printWriterArrayList.add(out);
 
             while (true)
@@ -60,6 +62,7 @@ public class ConversationHandler extends Thread
                     return;
                 }
 
+                printToFile.println(name + ": " + message);
                 for(PrintWriter writer : ChatServer.printWriterArrayList)
                 {
                     writer.println(name + ": " + message);
