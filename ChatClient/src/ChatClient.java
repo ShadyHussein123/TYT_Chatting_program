@@ -22,10 +22,6 @@ public class ChatClient
     static PrintWriter out;
     static JLabel nameLabel = new JLabel("             ");
 
-
-
-
-
     public ChatClient()
     {
         chatFrame.setLayout(new FlowLayout());
